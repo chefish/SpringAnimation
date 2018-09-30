@@ -1,7 +1,9 @@
 package com.bbk.yang.someexample;
 
 import android.os.Bundle;
+import android.support.animation.DynamicAnimation;
 import android.support.animation.SpringAnimation;
+import android.support.animation.SpringForce;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -83,12 +85,12 @@ public class SpringAnimationActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_CANCEL:
                         velocityTracker.computeCurrentVelocity(1000);
                         if (box.getTranslationX() != 0) {
-                            animationX = new SpringAnimation(box, SpringAnimation.TRANSLATION_X, 0);
-                            animationX.getSpring().setStiffness(getStiffness());
-                            animationX.getSpring().setDampingRatio(getDamping());
-                            animationX.getSpring().setFinalPosition(getFinalPositionX());
-                            animationX.setStartVelocity(velocityTracker.getXVelocity());
-                            animationX.start();
+//                            animationX = new SpringAnimation(box, SpringAnimation.TRANSLATION_X, 0);
+//                            animationX.getSpring().setStiffness(getStiffness());
+//                            animationX.getSpring().setDampingRatio(getDamping());
+//                            animationX.getSpring().setFinalPosition(getFinalPositionX());
+//                            animationX.setStartVelocity(velocityTracker.getXVelocity());
+//                            animationX.start();
                         }
                         if (box.getTranslationY() != 0) {
                             animationY = new SpringAnimation(box, SpringAnimation.TRANSLATION_Y, 0);
@@ -106,6 +108,8 @@ public class SpringAnimationActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        root.setOnTouchListener(null);
     }
 
     @OnClick({R.id.stiffness, R.id.damping, R.id.box})
@@ -116,6 +120,16 @@ public class SpringAnimationActivity extends AppCompatActivity {
             case R.id.damping:
                 break;
             case R.id.box:
+                if(animationY !=null){
+                    animationY.cancel();
+                }
+                animationY = new SpringAnimation(box, SpringAnimation.TRANSLATION_Y, 0);
+                animationY.getSpring().setStiffness(getStiffness());//40
+                animationY.getSpring().setDampingRatio(getDamping());//0.17
+//                            animationY.getSpring().setFinalPosition(getFinalPositionY());
+                animationY.setStartVelocity(-500);
+                animationY.start();
+
                 break;
         }
     }
